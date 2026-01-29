@@ -22,5 +22,5 @@ function Navbar() {
     )
     
 }
-//exporting navbar
+//exporting default navbar 
 export default Navbar;
