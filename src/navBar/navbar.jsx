@@ -22,5 +22,9 @@ function Navbar() {
     )
     
 }
+<<<<<<< HEAD
 
+=======
+//exporting default navbar 
+>>>>>>> f3938cb0f799f447f61c3977121187868c420554
 export default Navbar;
