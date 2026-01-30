@@ -1,30 +1,32 @@
 import React from "react"
-
+import "./navbar.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
 
     return ( 
+        <div className="BigMom">
+        <div className="Navmom">
 
-        <div>
             <div>TIME<span>MANGER</span></div>
-            <div>
+
+            <div className="Navlist">
                 <div>Home</div>
-                <div>TASKS</div>
+                <div>Tasks</div>
                 <div>Note Pad</div>
                 <div>Minteur</div>
             </div>
-            <div>
+
+            <div className="user-icon">
                 <FontAwesomeIcon icon={faCircleUser} />
             </div>
+
+        </div>
+        
         </div>
     )
     
 }
-<<<<<<< HEAD
 
-=======
-//exporting default navbar 
->>>>>>> f3938cb0f799f447f61c3977121187868c420554
 export default Navbar;

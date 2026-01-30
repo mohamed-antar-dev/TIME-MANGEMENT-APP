@@ -1,0 +1,50 @@
+
+* {
+    box-sizing: border-box;
+    font-family:  Inter;
+    margin: 0;
+}
+
+.Navmom{
+    height: 8vh;
+    width: 90%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background-color: #F8FAFC;
+    color: black;
+     border-radius: 33px;
+    padding: 0px 1rem  0px 1.4rem;
+    position: fixed;
+    top: 3%;
+    
+}
+.Navmom span{
+background-color: #10B981;
+color: black;
+padding: 4px;
+border-radius: 13px;
+}
+.Navlist{
+    display: flex;
+    gap: 50px;
+    height: 6vh;
+    align-items: center;
+    color: black;
+    padding: 0rem 1rem  0rem;   
+}
+.Navlist div{
+     cursor: pointer;
+    padding: 0.5rem 0.5rem;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease; 
+}
+.Navlist div:hover {
+    border-bottom: 3px solid #10B981;
+   text-shadow: 1px 0 0 currentColor;
+    transform: translateY(-3px);
+}
+.user-icon{
+    font-size:32px ;
+    color: black;
+}
