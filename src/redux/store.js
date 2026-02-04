@@ -1,13 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import themeReducer from './slices/themeSlice';
+import uiReducer from './slices/uiSlice';
+import contentReducer from './slices/contentSlice';
+import userPreferencesReducer from './slices/userPreferencesSlice';
+import navigationReducer from './slices/navigationSlice';
 
-/**
- * The Store is the central hub for all application data.
- * By centralizing state, we prevent "prop drilling" (passing data through 10 components).
- */
 export const store = configureStore({
   reducer: {
     theme: themeReducer,
-    // Add other slices here as we build them
+    ui: uiReducer,
+    content: contentReducer,
+    userPreferences: userPreferencesReducer,
+    navigation: navigationReducer,
   },
 });
+
+export default store;

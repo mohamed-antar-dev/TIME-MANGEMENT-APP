@@ -1,11 +1,34 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaXTwitter, FaFacebookF, FaInstagram, FaLinkedinIn  } from "react-icons/fa6";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setLanguage } from '../../redux/slices/userPreferencesSlice';
+import { FaXTwitter, FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import './Footer.css';
 
 const Footer = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  // Redux selectors
+  const footerLinks = useSelector((state) => state.content.footerLinks);
+  const socialLinks = useSelector((state) => state.content.socialLinks);
+  const language = useSelector((state) => state.userPreferences.language);
+
+  const handleLanguageChange = (e) => {
+    dispatch(setLanguage(e.target.value));
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  // Icon mapping
+  const iconMap = {
+    FaFacebookF: FaFacebookF,
+    FaXTwitter: FaXTwitter,
+    FaInstagram: FaInstagram,
+    FaLinkedinIn: FaLinkedinIn,
+  };
 
   return (
     <footer className="footer">
@@ -22,144 +45,108 @@ const Footer = () => {
               Manage your tasks, track your time, and organize your notes—all in one place.
             </p>
             <div className="social-links">
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="social-icon"
-                aria-label="Facebook"
-              >
-                <FaFacebookF />
-              </a>
-              <a 
-                href="https://x.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="social-icon"
-                aria-label="Twitter"
-              >
-                  <FaXTwitter />
-              </a>
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="social-icon"
-                aria-label="Instagram"
-              >
-               <FaInstagram />
-              </a>
-              <a 
-                href="https://linkedin.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="social-icon"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedinIn />
-              </a>
+              {socialLinks.map((social) => {
+                const IconComponent = iconMap[social.icon];
+                return (
+                  <a 
+                    key={social.platform}
+                    href={social.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="social-icon"
+                    aria-label={social.platform}
+                  >
+                    <IconComponent />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* Product Column */}
+          {/* Footer Links Container */}
           <div className="footer-container">
-          <div className="footer-column">
-            <h4>Product</h4>
-            <ul className="footer-links">
-              <li>
-                <a href="/features" onClick={(e) => { e.preventDefault(); navigate('/features'); }}>
-                  Features
-                </a>
-              </li>
-              <li>
-                <a href="/pricing" onClick={(e) => { e.preventDefault(); navigate('/pricing'); }}>
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a href="/demo" onClick={(e) => { e.preventDefault(); navigate('/demo'); }}>
-                  Demo
-                </a>
-              </li>
-              <li>
-                <a href="/changelog" onClick={(e) => { e.preventDefault(); navigate('/changelog'); }}>
-                  What's New
-                </a>
-              </li>
-      
-            </ul>
-          </div>
+            {/* Product Column */}
+            <div className="footer-column">
+              <h4>Product</h4>
+              <ul className="footer-links">
+                {footerLinks.product.map((link, index) => (
+                  <li key={index}>
+                    <a 
+                      href={link.path} 
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        handleNavigation(link.path); 
+                      }}
+                    >
+                      {link.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Resources Column */}
-          <div className="footer-column">
-            <h4>Resources</h4>
-            <ul className="footer-links">
-              <li>
-                <a href="/blog" onClick={(e) => { e.preventDefault(); navigate('/blog'); }}>
-                  Blog
-                </a>
-              </li>
+            {/* Resources Column */}
+            <div className="footer-column">
+              <h4>Resources</h4>
+              <ul className="footer-links">
+                {footerLinks.resources.map((link, index) => (
+                  <li key={index}>
+                    <a 
+                      href={link.path} 
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        handleNavigation(link.path); 
+                      }}
+                    >
+                      {link.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              <li>
-                <a href="/tutorials" onClick={(e) => { e.preventDefault(); navigate('/tutorials'); }}>
-                  Tutorials
-                </a>
-              </li>
-              <li>
-                <a href="/support" onClick={(e) => { e.preventDefault(); navigate('/support'); }}>
-                  Support
-                </a>
-              </li>
-              <li>
-                <a href="/faq" onClick={(e) => { e.preventDefault(); navigate('/faq'); }}>
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
+            {/* Company Column */}
+            <div className="footer-column">
+              <h4>Company</h4>
+              <ul className="footer-links">
+                {footerLinks.company.map((link, index) => (
+                  <li key={index}>
+                    <a 
+                      href={link.path} 
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        handleNavigation(link.path); 
+                      }}
+                    >
+                      {link.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Company Column */}
-          <div className="footer-column">
-            <h4>Company</h4>
-            <ul className="footer-links">
-              <li>
-                <a href="/about" onClick={(e) => { e.preventDefault(); navigate('/about'); }}>
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="/contact" onClick={(e) => { e.preventDefault(); navigate('/contact'); }}>
-                  Contact
-                </a>
-              </li>
-       
-            </ul>
-          </div>
-
-          {/* Legal Column */}
-          <div className="footer-column">
-            <h4>Legal</h4>
-            <ul className="footer-links">
-              <li>
-                <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate('/privacy'); }}>
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="/terms" onClick={(e) => { e.preventDefault(); navigate('/terms'); }}>
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a href="/cookies" onClick={(e) => { e.preventDefault(); navigate('/cookies'); }}>
-                  Cookie Policy
-                </a>
-              </li>
-          
-            </ul>
+            {/* Legal Column */}
+            <div className="footer-column">
+              <h4>Legal</h4>
+              <ul className="footer-links">
+                {footerLinks.legal.map((link, index) => (
+                  <li key={index}>
+                    <a 
+                      href={link.path} 
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        handleNavigation(link.path); 
+                      }}
+                    >
+                      {link.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-</div>
+
         {/* Footer Bottom */}
         <div className="footer-bottom">
           <div className="footer-bottom-left">
@@ -167,7 +154,11 @@ const Footer = () => {
           </div>
           <div className="footer-bottom-right">
             <div className="language-selector">
-              <select className="language-dropdown" defaultValue="en">
+              <select 
+                className="language-dropdown" 
+                value={language}
+                onChange={handleLanguageChange}
+              >
                 <option value="en">🇬🇧 English</option>
                 <option value="fr">🇫🇷 Français</option>
                 <option value="ar">🇲🇦 العربية</option>

@@ -1,151 +1,44 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { useScramble } from '../../hooks/useScramble';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
-import { FaTasks, FaChartLine } from "react-icons/fa";
-import { RxLapTimer } from "react-icons/rx";
-import { LuNotepadText } from "react-icons/lu";
-import { RiFocus2Fill } from "react-icons/ri";
-import { GrSecure } from "react-icons/gr";
-import { CgDarkMode } from "react-icons/cg";
-import { MdDevices } from "react-icons/md";
+import { 
+  setShowScrollToTop, 
+  setScrollProgress,
+  updateCursorPosition,
+  revealSection
+} from '../../redux/slices/uiSlice';
+import { FeatureCard, HowItWorksStep, ReviewCard, PricingCard, FAQItem, StatCounter } from './HomeComponents';
 import './Home.css';
-
-const FeatureCard = ({ icon, title, desc, variant, delay }) => (
-  <div className={`f-card ${variant}`} style={{ animationDelay: `${delay}s` }}>
-    <div className="f-icon">{icon}</div>
-    <div className="f-content">
-      <h4>{title}</h4>
-      <p>{desc}</p>
-    </div>
-  </div>
-);
-
-const HowItWorksStep = ({ number, title, desc, delay }) => (
-  <div className="step-card" style={{ animationDelay: `${delay}s` }}>
-    <div className="step-number">{number}</div>
-    <div className="step-content">
-      <h4>{title}</h4>
-      <p>{desc}</p>
-    </div>
-    <div className="step-connector"></div>
-  </div>
-);
-
-const ReviewCard = ({ name, text, role, image }) => (
-  <div className="r-card marquee-item">
-    <div className="r-user">
-      <img src={image} alt={name} className="user-avatar" />
-      <div className="r-info">
-        <h5>{name}</h5>
-        <p className="role">{role}</p>
-        <div className="stars">★★★★★</div>
-      </div>
-    </div>
-    <p>"{text}"</p>
-  </div>
-);
-
-const PricingCard = ({ title, price, features, highlighted, onSelect }) => (
-  <div className={`pricing-card ${highlighted ? 'highlighted' : ''}`}>
-    {highlighted && <div className="popular-badge">Most Popular</div>}
-    <h3>{title}</h3>
-    <div className="price">
-      <span className="currency">$</span>
-      <span className="amount">{price}</span>
-      <span className="period">/month</span>
-    </div>
-    <ul className="features-list">
-      {features.map((feature, idx) => (
-        <li key={idx}>
-          <span className="check-icon">✓</span>
-          {feature}
-        </li>
-      ))}
-    </ul>
-    <button className="pricing-btn" onClick={onSelect}>
-      Get Started
-      <span className="arrow">→</span>
-    </button>
-  </div>
-);
-
-const FAQItem = ({ q, a }) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className={`faq-item ${open ? 'open' : ''}`} onClick={() => setOpen(!open)}>
-      <div className="faq-q">
-        {q} <span>{open ? '−' : '+'}</span>
-      </div>
-      {open && <div className="faq-a">{a}</div>}
-    </div>
-  );
-};
-
-const StatCounter = ({ value, label, suffix = '' }) => {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    const currentRef = ref.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isVisible) {
-      const target = parseInt(value);
-      const duration = 2000;
-      const steps = 60;
-      const increment = target / steps;
-      let current = 0;
-
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-          setCount(target);
-          clearInterval(timer);
-        } else {
-          setCount(Math.floor(current));
-        }
-      }, duration / steps);
-
-      return () => clearInterval(timer);
-    }
-  }, [isVisible, value]);
-
-  return (
-    <div className="stat-item" ref={ref}>
-      <div className="stat-value">{count.toLocaleString()}{suffix}</div>
-      <div className="stat-label">{label}</div>
-    </div>
-  );
-};
 
 const Home = () => {
   const navigate = useNavigate();
-  const title = useScramble("Be More Productive.");
-  const [showScroll, setShowScroll] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const dispatch = useDispatch();
   const cursorRef = useRef(null);
-
+  
+  // Redux Selectors - UI State
+  const showScroll = useSelector((state) => state.ui.showScrollToTop);
+  const scrollProgress = useSelector((state) => state.ui.scrollProgress);
+  const revealedSections = useSelector((state) => state.ui.revealedSections);
+  const customCursorEnabled = useSelector((state) => state.userPreferences.interface.customCursor);
+  const animationsEnabled = useSelector((state) => state.userPreferences.animations.enabled);
+  const scrambleSpeed = useSelector((state) => state.userPreferences.animations.scrambleSpeed);
+  
+  // Redux Selectors - Content
+  const hero = useSelector((state) => state.content.hero);
+  const reviews = useSelector((state) => state.content.reviews);
+  const pricing = useSelector((state) => state.content.pricing);
+  const features = useSelector((state) => state.content.features);
+  const howItWorks = useSelector((state) => state.content.howItWorks);
+  const stats = useSelector((state) => state.content.stats);
+  const faqs = useSelector((state) => state.content.faqs);
+  const about = useSelector((state) => state.content.about);
+  const cta = useSelector((state) => state.content.cta);
+  
+  // Scramble effect for title
+  const title = useScramble(hero.title, scrambleSpeed);
+  
   // Reveal hooks
   const [aboutRef, aboutVisible] = useScrollReveal();
   const [featuresRef, featuresVisible] = useScrollReveal();
@@ -155,17 +48,59 @@ const Home = () => {
   const [pricingRef, pricingVisible] = useScrollReveal();
   const [faqRef, faqVisible] = useScrollReveal();
 
+  // Sync reveal state to Redux
+  useEffect(() => {
+    if (aboutVisible && !revealedSections.about) {
+      dispatch(revealSection('about'));
+    }
+  }, [aboutVisible, revealedSections.about, dispatch]);
+
+  useEffect(() => {
+    if (featuresVisible && !revealedSections.features) {
+      dispatch(revealSection('features'));
+    }
+  }, [featuresVisible, revealedSections.features, dispatch]);
+
+  useEffect(() => {
+    if (howItWorksVisible && !revealedSections.howItWorks) {
+      dispatch(revealSection('howItWorks'));
+    }
+  }, [howItWorksVisible, revealedSections.howItWorks, dispatch]);
+
+  useEffect(() => {
+    if (statsVisible && !revealedSections.stats) {
+      dispatch(revealSection('stats'));
+    }
+  }, [statsVisible, revealedSections.stats, dispatch]);
+
+  useEffect(() => {
+    if (pricingVisible && !revealedSections.pricing) {
+      dispatch(revealSection('pricing'));
+    }
+  }, [pricingVisible, revealedSections.pricing, dispatch]);
+
+  useEffect(() => {
+    if (faqVisible && !revealedSections.faq) {
+      dispatch(revealSection('faq'));
+    }
+  }, [faqVisible, revealedSections.faq, dispatch]);
+
   // Custom Cursor Follower Logic
   useEffect(() => {
+    if (!customCursorEnabled) return;
+    
     const moveCursor = (e) => {
       if (cursorRef.current) {
         cursorRef.current.style.left = `${e.clientX}px`;
         cursorRef.current.style.top = `${e.clientY}px`;
       }
+      // Update cursor position in Redux
+      dispatch(updateCursorPosition({ x: e.clientX, y: e.clientY }));
     };
+    
     window.addEventListener('mousemove', moveCursor);
     return () => window.removeEventListener('mousemove', moveCursor);
-  }, []);
+  }, [customCursorEnabled, dispatch]);
 
   // Scroll Progress & Scroll to Top
   useEffect(() => {
@@ -173,264 +108,149 @@ const Home = () => {
       const winScroll = document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrolled = (winScroll / height) * 100;
-      setScrollProgress(scrolled);
-      setShowScroll(window.scrollY > 500);
+      
+      dispatch(setScrollProgress(scrolled));
+      dispatch(setShowScrollToTop(window.scrollY > 500));
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [dispatch]);
 
-  const reviews = [
-    { 
-      name: "Brahim Sougraty", 
-      role: "Full stack developer",
-      text: "TaskTime transformed how our team manages sprints. The timer feature keeps us focused and the task breakdown is brilliant.", 
-      image: "https://i.pravatar.cc/150?u=mike" 
-    },
-    { 
-      name: "Fatima Slimani", 
-      role: "Student",
-      text: "I love how the notepad integrates with tasks. I can brainstorm and organize in one place. Game changer for my workflow.", 
-      image: "https://i.pravatar.cc/150?u=marcus" 
-    },
-    { 
-      name: "Mohamed Antar", 
-      role: "Software Engineer",
-      text: "The time tracking is accurate and non-intrusive. Finally understand where my hours go. Boosted my productivity by 40%.", 
-      image: "https://i.pravatar.cc/150?u=jhon" 
-    },
-    { 
-      name: "David Park", 
-      role: "Startup Founder",
-      text: "Replaced 4 tools with TaskTime. Tasks, notes, and time tracking in one beautiful interface. Our team is more aligned than ever.", 
-      image: "https://i.pravatar.cc/150?u=david" 
-    },
-    { 
-      name: "Lisa Thompson", 
-      role: "Content Strategist",
-      text: "The Pomodoro timer with task integration is perfect. I plan my day and execute with laser focus. Best productivity tool I've used.", 
-      image: "https://i.pravatar.cc/150?u=lisa" 
+  const handlePricingSelect = (planId) => {
+    if (planId === 'free' || planId === 'pro') {
+      navigate(`/signup?plan=${planId}`);
+    } else if (planId === 'enterprise') {
+      navigate('/contact');
     }
-  ];
+  };
 
   return (
-    <div className="home-container">
+    <div className="home">
+      {/* Custom Cursor */}
+      {customCursorEnabled && <div className="custom-cursor" ref={cursorRef}></div>}
+      
       {/* Scroll Progress Bar */}
       <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }}></div>
-
-      {/* Custom Cursor */}
-      <div className="cursor-follower" ref={cursorRef}></div>
 
       {/* --- HERO SECTION --- */}
       <section className="hero">
         <div className="hero-content">
-          <div className="badge-pill">Trusted by 2000+ Users Worldwide</div>
-          <h1 className="hero-title">{title}<br/><span>Work Smarter, Not Harder.</span></h1>
-          <p className="hero-subtitle">
-            The ultimate productivity suite combining intelligent task management, 
-            precision time tracking, and seamless note-taking. Everything you need 
-            to master your day in one elegant workspace.
-          </p>
-          <div className="hero-btns">
-            <button className="btn-primary-lg" onClick={() => navigate('/tasks')}>
-              Start Free Today
+          <h1 className="hero-title">{animationsEnabled ? title : hero.title}</h1>
+          <p className="hero-subtitle">{hero.subtitle}</p>
+          <p className="hero-description">{hero.description}</p>
+          
+          <div className="hero-actions">
+            <button className="btn-primary" onClick={() => navigate('/signup')}>
+              Get Started Free
               <span className="btn-arrow">→</span>
             </button>
-            <button className="btn-secondary-lg" onClick={() => navigate('/demo')}>
-              <span className="play-icon">▶</span>
+            <button className="btn-secondary" onClick={() => navigate('/demo')}>
               Watch Demo
             </button>
           </div>
-          <div className="hero-trust">
-            <div className="trust-logos">
-              <span className="trust-text">Trusted by teams at:</span>
-              <div className="company-badges">
-                <span className="company-badge">TechCorp</span>
-                <span className="company-badge">OFPPT</span>
-                <span className="company-badge">DesignCo</span>
-              </div>
+
+          <div className="hero-stats">
+            <div className="stat">
+              <strong>50K+</strong>
+              <span>Active Users</span>
+            </div>
+            <div className="stat">
+              <strong>4.9/5</strong>
+              <span>User Rating</span>
+            </div>
+            <div className="stat">
+              <strong>99.9%</strong>
+              <span>Uptime</span>
             </div>
           </div>
         </div>
-        
+
         <div className="hero-visual">
-          <div className="floating-mockup">
-            <div className="mockup-header">
-              <div className="mockup-dots">
-                <span className="dot red"></span>
-                <span className="dot yellow"></span>
-                <span className="dot green"></span>
-              </div>
-              <div className="mockup-title">My Workspace</div>
-            </div>
-            <div className="mockup-body">
-              <div className="mockup-task">
-                <div className="task-checkbox"></div>
-                <div className="task-text">
-                  <div className="task-title"></div>
-                  <div className="task-time"></div>
-                </div>
-                <div className="task-timer"></div>
-              </div>
-              <div className="mockup-task">
-                <div className="task-checkbox completed"></div>
-                <div className="task-text">
-                  <div className="task-title completed"></div>
-                  <div className="task-time"></div>
-                </div>
-                <div className="task-timer"></div>
-              </div>
-              <div className="mockup-task">
-                <div className="task-checkbox"></div>
-                <div className="task-text">
-                  <div className="task-title"></div>
-                  <div className="task-time"></div>
-                </div>
-                <div className="task-timer active"></div>
-              </div>
+          <div className="floating-card card-1">
+            <div className="card-icon">📝</div>
+            <div className="card-text">
+              <strong>23 Tasks</strong>
+              <span>Completed Today</span>
             </div>
           </div>
-          <div className="bg-gradient-blur"></div>
-        </div>
-
-        <div className="circle-btn-container" onClick={() => document.getElementById('howItWorks').scrollIntoView({behavior:'smooth'})}>
-          <div className="circle-text-wrapper">
-            <svg viewBox="0 0 100 100">
-              <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
-              <text className="circle-text"><textPath href="#circlePath">• SCROLL TO EXPLORE • SCROLL TO EXPLORE •</textPath></text>
-            </svg>
+          <div className="floating-card card-2">
+            <div className="card-icon">⏱️</div>
+            <div className="card-text">
+              <strong>3h 42m</strong>
+              <span>Focused Time</span>
+            </div>
           </div>
-          <div className="circle-arrow">↓</div>
-        </div>
-      </section>
-
-      {/* --- STATS SECTION --- */}
-      <section ref={statsRef} className={`stats-section reveal ${statsVisible ? 'reveal-active' : ''}`}>
-        <div className="stats-container">
-          <StatCounter value="2000" label="Active Users" suffix="+" />
-          <StatCounter value="50000" label="Tasks Completed" suffix="+" />
-          <StatCounter value="30000" label="Hours Tracked" suffix="+" />
-          <StatCounter value="95" label="Satisfaction Rate" suffix="%" />
+          <div className="floating-card card-3">
+            <div className="card-icon">📊</div>
+            <div className="card-text">
+              <strong>+40%</strong>
+              <span>Productivity</span>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* --- HOW IT WORKS SECTION --- */}
-      <section id="howItWorks" ref={howItWorksRef} className={`how-it-works reveal ${howItWorksVisible ? 'reveal-active' : ''}`}>
-        <div className="section-header">
-          <h2 className="section-label">How It Works</h2>
-          <h3 className="section-title">Master Productivity in 3 Simple Steps</h3>
-        </div>
+      <section 
+        ref={howItWorksRef} 
+        className={`how-it-works reveal ${howItWorksVisible ? 'reveal-active' : ''}`}
+      >
+        <h2 className="section-label center">How It Works</h2>
+        <h3 className="section-title center">Get Started in 4 Simple Steps</h3>
         <div className="steps-container">
-          <HowItWorksStep 
-            number="01"
-            title="Create & Organize Tasks"
-            desc="Add your tasks with detailed descriptions, priorities, and categories. Our intelligent system helps you structure your workload for maximum efficiency."
-            delay={0}
-          />
-          <HowItWorksStep 
-            number="02"
-            title="Attach Timers & Track Progress"
-            desc="Set custom timers for each task or use our built-in Pomodoro feature. Watch your productivity soar as you maintain laser focus on what matters most."
-            delay={0.2}
-          />
-          <HowItWorksStep 
-            number="03"
-            title="Take Notes & Review"
-            desc="Capture ideas, meeting notes, and insights in our integrated notepad. Link notes to tasks for complete context. Review analytics to optimize your workflow."
-            delay={0.4}
-          />
+          {howItWorks.map((step, index) => (
+            <HowItWorksStep key={index} {...step} />
+          ))}
         </div>
       </section>
 
-      {/* --- ABOUT US SECTION --- */}
-      <section id="about" ref={aboutRef} className={`about reveal ${aboutVisible ? 'reveal-active' : ''}`}>
-        <div className="section-header">
-          <h2 className="section-label">About TaskTime</h2>
-          <h3 className="section-title">Built for Focus, Designed for Clarity</h3>
+      {/* --- STATS SECTION --- */}
+      <section 
+        ref={statsRef} 
+        className={`stats-section reveal ${statsVisible ? 'reveal-active' : ''}`}
+      >
+        <div className="stats-grid">
+          {stats.map((stat, index) => (
+            <StatCounter key={index} {...stat} />
+          ))}
         </div>
-        <div className="about-bento">
-          <div className="about-card-main">
-            <h4>Why TaskTime Exists</h4>
-            <p>
-              TaskTime was born from a simple observation: modern productivity is broken. We saw students drowning in browser tabs and professionals losing hours to "app-switching fatigue." We decided to build a home for work where tasks, time, and thought aren't separated, but unified.
-            </p>
-            <p style={{ marginTop: '16px' }}>
-              We couldn't find a tool that balanced the rigid structure of a task manager with the freedom of a notepad. So, we built our own. TaskTime is the result of years of refining how we work—combining a precision timer with a flexible workspace.
-            </p>
+      </section>
+
+      {/* --- ABOUT SECTION --- */}
+      <section 
+        ref={aboutRef} 
+        className={`about reveal ${aboutVisible ? 'reveal-active' : ''}`}
+      >
+        <h2 className="section-label center">About TaskTime</h2>
+        <h3 className="section-title center">{about.title}</h3>
+        <div className="about-cards">
+          <div className="about-card-sub">
+            <div className="stat">Our Philosophy</div>
+            <p>{about.philosophy}</p>
           </div>
           <div className="about-card-sub">
             <div className="stat">Who We Build For</div>
-            <p>Whether you are prepping for a bar exam or managing a remote engineering team, TaskTime is crafted for those who value their time. We are a small team of developers dedicated to creating the cleanest, fastest, and most secure workspace on the web that prioritize your privacy and your "flow state" above everything else.</p>
+            <p>{about.audience}</p>
           </div>
           <div className="about-card-sub">
             <div className="stat">Our Simple Goal</div>
-            <p>Empowering Your Best Work Body: Our mission is to give you back 30 minutes of "lost time" every day. By removing the friction of organizing, we help you spend less time planning your work and more time actually doing the things that move the needle.</p>
+            <p>{about.mission}</p>
           </div>
         </div>
       </section>
 
       {/* --- CORE FEATURES SECTION --- */}
-      <section ref={featuresRef} className={`features reveal ${featuresVisible ? 'reveal-active' : ''}`}>
+      <section 
+        ref={featuresRef} 
+        className={`features reveal ${featuresVisible ? 'reveal-active' : ''}`}
+      >
         <h2 className="section-label center">Core Features</h2>
         <h3 className="section-title center">Everything You Need to Succeed</h3>
         <div className="features-grid-bento">
-          <FeatureCard 
-            variant="wide" 
-            icon={<FaTasks />}
-
-            title="Smart Task Management" 
-            desc="Create, organize, and prioritize tasks with intelligent categorization. Set deadlines, add descriptions, and track completion with visual progress indicators." 
-            delay={0}
-          />
-          <FeatureCard 
-            variant="tall" 
-            icon={<RxLapTimer /> }
-            title="Precision Time Tracking" 
-            desc="Attach custom timers to any task. Use Pomodoro technique (25/5 min cycles) or set your own intervals. See exactly where your time goes with detailed analytics." 
-            delay={0.1}
-          />
-          <FeatureCard 
-            variant="standard" 
-            icon={ <LuNotepadText />}
-            title="Integrated Notepad" 
-            desc="Rich text editor for capturing ideas, meeting notes, and documentation. Link notes to tasks for complete context and easy reference." 
-            delay={0.2}
-          />
-          <FeatureCard 
-            variant="standard" 
-            icon={<RiFocus2Fill />}
-            title="Focus Mode" 
-            desc="Distraction-free environment with ambient sounds, website blocking, and notification management. Enter deep work instantly." 
-            delay={0.3}
-          />
-          <FeatureCard 
-            variant="standard" 
-            icon={<FaChartLine />}
-            title="Analytics & Insights" 
-            desc="Visualize your productivity with beautiful charts. Track time spent per project, completion rates, and identify optimization opportunities." 
-            delay={0.4}
-          />
-          <FeatureCard 
-            variant="standard" 
-            icon={<GrSecure />}
-            title="Secure & Private" 
-            desc="Military-grade encryption, local-first architecture, and optional cloud sync. Your data never leaves your control." 
-            delay={0.5}
-          />
-          <FeatureCard 
-            variant="standard" 
-            icon={<CgDarkMode />}
-            title="Adaptive Interface" 
-            desc="Automatic dark mode with customizable themes. Clean, minimal design that adapts to your preferences and time of day." 
-            delay={0.6}
-          />
-          <FeatureCard 
-            variant="standard" 
-            icon={<MdDevices />}
-            title="Cross-Platform Sync" 
-            desc="Seamlessly work across desktop, mobile, and tablet. Real-time sync keeps your tasks and notes updated everywhere." 
-            delay={0.7}
-          />
+          {features.map((feature) => (
+            <FeatureCard key={feature.id} {...feature} />
+          ))}
         </div>
       </section>
 
@@ -448,99 +268,52 @@ const Home = () => {
       </section>
 
       {/* --- PRICING SECTION --- */}
-      <section ref={pricingRef} className={`pricing-section reveal ${pricingVisible ? 'reveal-active' : ''}`}>
+      <section 
+        ref={pricingRef} 
+        className={`pricing-section reveal ${pricingVisible ? 'reveal-active' : ''}`}
+      >
         <h2 className="section-label center">Pricing Plans</h2>
         <h3 className="section-title center">Choose Your Perfect Plan</h3>
         <div className="pricing-container">
-          <PricingCard 
-            title="Free"
-            price="0"
-            features={[
-              'Unlimited tasks & notes',
-              'Basic time tracking',
-              'Pomodoro timer',
-              'Local data storage',
-              'Dark mode',
-              'Mobile responsive'
-            ]}
-            onSelect={() => navigate('/signup')}
-          />
-          <PricingCard 
-            title="Pro"
-            price="9"
-            highlighted={true}
-            features={[
-              'Everything in Free',
-              'Advanced analytics',
-              'Cloud sync (encrypted)',
-              'Unlimited workspaces',
-              'Team collaboration',
-              'Priority support',
-              'Custom themes',
-              'Export to PDF/CSV'
-            ]}
-            onSelect={() => navigate('/signup?plan=pro')}
-          />
-          <PricingCard 
-            title="Enterprise"
-            price="29"
-            features={[
-              'Everything in Pro',
-              'SSO integration',
-              'Admin dashboard',
-              'API access',
-              'Dedicated support',
-              'Custom integrations',
-              'SLA guarantee'
-            ]}
-            onSelect={() => navigate('/contact')}
-          />
+          {pricing.map((plan) => (
+            <PricingCard 
+              key={plan.id}
+              {...plan}
+              onSelect={() => handlePricingSelect(plan.id)}
+            />
+          ))}
         </div>
       </section>
 
       {/* --- FAQ --- */}
-      <section ref={faqRef} className={`faq reveal ${faqVisible ? 'reveal-active' : ''}`}>
+      <section 
+        ref={faqRef} 
+        className={`faq reveal ${faqVisible ? 'reveal-active' : ''}`}
+      >
         <h2 className="section-label center">FAQ</h2>
         <h3 className="section-title center">Frequently Asked Questions</h3>
         <div className="faq-list">
-          <FAQItem 
-            q="How does the timer feature work with tasks?" 
-            a="Each task can have its own custom timer. Click on any task to start a timer, set your desired duration (or use Pomodoro defaults), and track time spent. The timer runs in the background and saves your progress automatically. You can pause, resume, or reset at any time. All time data is logged for analytics." 
-          />
-          <FAQItem 
-            q="Can I link notes to specific tasks?" 
-            a="Absolutely! Our integrated notepad allows you to create notes and link them directly to tasks. This keeps all your context in one place. You can also create standalone notes for general ideas, meeting minutes, or documentation. Use tags and search to find notes instantly." 
-          />
-          <FAQItem 
-            q="Is my data really secure?" 
-            a="Yes. All your data is encrypted using AES-256 encryption and stored locally in your browser by default. If you enable cloud sync, we use end-to-end encryption, meaning your data is encrypted on your device before it ever reaches our servers. We cannot read your tasks, notes, or any personal information." 
-          />
-         
-          <FAQItem 
-            q="Can I use TaskTime on mobile devices?" 
-            a="Yes! TaskTime is fully responsive and works seamlessly on iOS, Android, tablets, and desktop browsers. We're also developing native mobile apps for an even better experience. Your data syncs across all devices in real-time." 
-          />
-          <FAQItem 
-            q="How is this different from other task managers?" 
-            a="TaskTime uniquely combines three essential productivity tools: task management, time tracking, and note-taking. Most apps force you to switch between multiple tools. We integrate everything seamlessly—attach timers to tasks, link notes to projects, and see your entire workflow in one place. Plus, our privacy-first approach means your data stays yours." 
-          />
-          <FAQItem 
-            q="Can I export my data?" 
-            a="Yes. You have complete ownership of your data. Export everything to JSON, CSV, or Markdown format with a single click. No lock-in, no hassle. Your productivity data belongs to you, and you can take it anywhere." 
-          />
+          {faqs.map((faq, index) => (
+            <FAQItem 
+              key={faq.id}
+              question={faq.question}
+              answer={faq.answer}
+              index={index}
+            />
+          ))}
         </div>
       </section>
 
       {/* --- CTA SECTION --- */}
       <section className="cta-section">
         <div className="cta-content">
-          <h2>Ready to Transform Your Productivity?</h2>
-          <p>Join thousands of professionals who've mastered their time with TaskTime.</p>
+          <h2>{cta.title}</h2>
+          <p>{cta.subtitle}</p>
           <button className="btn-primary-lg" onClick={() => navigate('/signup')}>
-            Start Your Free Trial
+            {cta.buttonText}
             <span className="btn-arrow">→</span>
           </button>
-          <p className="cta-note">No credit card required • 14-day free trial • Cancel anytime</p>
+          <p className="cta-note">{cta.note}</p>
         </div>
       </section>
 

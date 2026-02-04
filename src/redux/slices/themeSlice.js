@@ -1,26 +1,44 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  darkMode: false,
+  // Custom theme colors (can be extended)
+  customTheme: null,
+  // Available themes
+  availableThemes: ['default', 'ocean', 'sunset', 'forest', 'monochrome'],
+  currentTheme: 'default',
+};
+
 const themeSlice = createSlice({
   name: 'theme',
-  // Initialize state by checking localStorage to see if user was previously in dark mode
-  initialState: { darkMode: localStorage.getItem('theme') === 'dark' },
+  initialState,
   reducers: {
     toggleTheme: (state) => {
-      // Toggle boolean state
       state.darkMode = !state.darkMode;
-      
-      // Determine the string value for DOM manipulation
-      const theme = state.darkMode ? 'dark' : 'light';
-      
-      // Save to localStorage so it stays on page refresh
-      localStorage.setItem('theme', theme);
-      
-      // Directly manipulate the body attribute so CSS variables update instantly
-      document.body.setAttribute('data-theme', theme);
-    }
-  }
+    },
+    setDarkMode: (state, action) => {
+      state.darkMode = action.payload;
+    },
+    setCurrentTheme: (state, action) => {
+      state.currentTheme = action.payload;
+    },
+    setCustomTheme: (state, action) => {
+      state.customTheme = action.payload;
+    },
+    resetTheme: (state) => {
+      state.darkMode = false;
+      state.currentTheme = 'default';
+      state.customTheme = null;
+    },
+  },
 });
 
-// Export the action for the button to dispatch
-export const { toggleTheme } = themeSlice.actions;
+export const {
+  toggleTheme,
+  setDarkMode,
+  setCurrentTheme,
+  setCustomTheme,
+  resetTheme,
+} = themeSlice.actions;
+
 export default themeSlice.reducer;
