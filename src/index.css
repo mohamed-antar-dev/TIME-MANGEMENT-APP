@@ -1,8 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 
 /* ===== CSS VARIABLES ===== */
+
+
+/* @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); */
 :root {
-  --font-main: 'Inter', sans-serif;
+  --font-main: 'Bebas', sans-serif;
 
   /* Light Mode Palette */
   --bg-primary: #F8FAFC;
@@ -67,6 +72,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
   min-height: 100vh;
+  
 }
 
 /* ===== ROOT APP CONTAINER ===== */

@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import './App.css'
 
 // Importing organized components from your directory structure
 import Navbar from './components/Navbar/Navbar';
@@ -49,5 +51,6 @@ const App = () => {
     </Router>
   );
 };
+
 
 export default App;
