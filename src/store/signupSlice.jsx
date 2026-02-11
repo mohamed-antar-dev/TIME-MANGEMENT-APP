@@ -10,7 +10,7 @@ const signupSlice = createSlice({
     },
     reducers: {
         updateField: (state, action) => {
-            const { field, value } = action.payload; // Fixed: was action.payLoad
+            const { field, value } = action.payload; 
             state[field] = value;
         },
         resetForm: (state) => {

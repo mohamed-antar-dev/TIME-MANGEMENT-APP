@@ -17,7 +17,8 @@
     padding: 0px 1rem  0px 1.4rem;
     position: fixed;
     top: 3%;
-    
+    z-index: 1;
+    border:2px solid black;
 }
 .Navmom span{
 background-color: #10B981;

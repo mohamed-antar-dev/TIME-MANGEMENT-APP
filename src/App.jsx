@@ -1,15 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+
 import NavBar from './navBar/navbar'
+import Signup from './signup/signup'
 import './App.css'
+import FormTask from './task/Formtask'
+import FormGear from "./task/formGear/formGear"
+import Tasks from './tasks/tasks'
+
+import {BrowserRouter,Routes,Route} from "react-router-dom"
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
-      <NavBar></NavBar>
+    <BrowserRouter>
+    <Routes>
+      
+      <Route  path="/tasks"  element={<Tasks/>}/>
+      <Route  path="/formGear/:taskid"  element={<FormGear/>}/>
+    </Routes>
+    </BrowserRouter>
+      {/* <NavBar></NavBar> 
+     
+      <FormGear></FormGear> 
+       
+      <Signup></Signup>  */}
+      
+      
+      
+     
+       
     </>
   )
 }

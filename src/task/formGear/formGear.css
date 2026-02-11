@@ -1,0 +1,116 @@
+
+
+
+.mom-formGear{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.full-formGear{
+    border: 1px solid rgb(255, 254, 252);
+    height: 70vh;
+    max-height: 70vh;
+    max-width: 500px;
+    min-width: 300px;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(140, 67, 189);
+    border-radius: 20px;
+}
+.bottom-formGear{
+    padding: 7px 18px;    
+}
+.bottom-formGear  .buttonBack{
+    display: flex;
+    justify-content: flex-end;
+    
+    padding: 9px 3px  ;   
+}
+.bottom-formGear  .Double-icons{
+    display: flex;
+    justify-content: flex-end;
+    gap:15px;
+    padding: 12px 25px;   
+}
+
+.top-formGear{
+   flex:9;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.field label{
+    padding: 6px;
+}
+.field input{
+    color: rgb(255, 255, 255);
+    transition: 0.4s ease;
+    border-radius: 13px;
+    padding-left: 8px;
+    height: 40px;
+    max-height: 40px;
+    min-height: 2px;
+    width:400px;
+    max-width: 400px;
+    min-width: 200px;
+     border: 3px solid white;
+
+}
+.field input:hover,
+.field .input-note:hover{
+        color: black;
+    background-color: #818df8b9;
+    transform: scale(1.02);
+    box-shadow: 0 0 0 4px hsl(0, 0%, 0%), 
+                0 0 0 7px #818CF8; 
+}
+.field .input-note,textarea{
+     width:400px;
+    max-width: 400px;
+    min-width: 200px;
+    height: 240px;
+    max-height:240px;
+    min-height: 41px ;
+    resize: none;
+    border-radius: 13px;
+    padding: 8px ;
+     border: 3px solid white;
+  box-shadow: 0 0 0 4px hsl(0, 0%, 0%), 
+                0 0 0 6px rgb(255, 255, 255);  
+                transition: 0.4s ease;
+}
+.icon-FormGear.CircleLeft{
+    font-size: xx-large;
+    
+}
+.icon-FormGear{
+    font-size: 26px;
+    transition: 0.4s ease;
+}
+
+.icon-FormGear:hover{
+    transform: scale(1.2);
+}
+.icon-FormGear.TrashIcon:hover{
+    color: #FF5B5B;
+}
+.icon-FormGear.SaveIcon:hover{
+    color:rgb(62, 190, 60);
+}
+.icon-FormGear.CircleLeft:hover{
+    color: #3B82F6 ;
+}
+.bottom-formGear{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+
+}
