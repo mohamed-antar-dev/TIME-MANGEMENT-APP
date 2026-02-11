@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const loadTasksFromLocalStorage = () => {
+// THE PLACE WHERE THE TASKS ARE SAVED INSIDE LOCAL STORAGE
+const savedTasks = () => {
     try {
-        const serializedTasks = localStorage.getItem("myTasks");
-        if (!serializedTasks || serializedTasks === "undefined") return []; 
-        return JSON.parse(serializedTasks);
+        const historique = localStorage.getItem("myTasks");
+        if (!historique || historique === "undefined") return []; 
+        // JSON.parse HE TRANSLATE THE STRING TO ARRAY 
+        return JSON.parse(historique);
     } catch (e) {
         console.error("Error loading tasks:", e);
         return []; 
@@ -20,18 +22,21 @@ const saveToLocalStorage = (tasks) => {
     }
 };
 
+// 
 const uiSlice = createSlice({
     name: "ui",
     initialState: {
         showTask: false,
         lockTask: false,
         infoTask: false,
-        tasks: loadTasksFromLocalStorage(),
+        tasks: savedTasks(),
     },
     reducers: {
         createTask: (state) => {
+            // VERIFI OF N° OF TASKS + ALERT MSG 
             if (state.tasks.length >= 6) {
                 alert("You can't create more than 6 tasks.");
+                alert("YOU WANT MORE TASKS YOU HAVE TO LOGIN IN + PREMIUM VERSION ")
                 return; 
             }
             state.tasks.push({

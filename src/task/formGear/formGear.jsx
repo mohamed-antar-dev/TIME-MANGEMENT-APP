@@ -38,6 +38,7 @@ function FormGear() {
        // verification of form of time
         const timePattern = /^\d{1,2}:\d{2}\s*->\s*\d{1,2}:\d{2}$/;
 
+        // fct how show the alert if the form of time is not correct
         if (timeValue !== "" && !timePattern.test(timeValue)) {
             alert("Please use the correct format : 00:00 -> 00:00");
             timeRef.current.focus();
@@ -52,7 +53,7 @@ function FormGear() {
         }));
         navigate("/tasks");
     };
-
+// fct to clear all inputs of the formGear ( settings ) and show alert to confirm the action
     const clearInputs = () => {
         if (!titleRef.current.value && !timeRef.current.value && !noteRef.current.value) {
             alert("ALL INPUTS ARE ALREADY EMPTY!");
@@ -72,12 +73,17 @@ function FormGear() {
     return (
         <div className='mom-formGear'>
             <div className='full-formGear'>
+
+{/* the first part  where we find inputs  */}
                 <div className='top-formGear'>
+
+{/* field of the title ( input )*/}
                     <div className='field'>
                         <label>TITLE :</label>
                         <input ref={titleRef} placeholder="Enter task title..." />
                     </div>
 
+{/* field of the Time */}
                     <div className='field'>
                         <label>TIME (START  ---  END) :</label>
                         <input 
@@ -87,6 +93,7 @@ function FormGear() {
                         />
                     </div>
 
+{/* field of the Note*/}
                     <div className='field'>
                         <label>NOTE :</label>
                         <textarea 
@@ -95,9 +102,13 @@ function FormGear() {
                             placeholder="Add more details..."
                         ></textarea>
                     </div>
+
                 </div>
 
+{/* the second part  where we find icons  */}
                 <div className='bottom-formGear'>
+
+                    {/* icon Clear all  +  icon Save input context  */}
                     <div className='Double-icons'>
                         <FontAwesomeIcon 
                             className='icon-FormGear TrashIcon' 
@@ -110,6 +121,8 @@ function FormGear() {
                             icon={faFloppyDisk} 
                         />
                     </div>
+                    
+                    {/*   icon to go back to tasks   */}
                     <div className='buttonBack'>
                         <FontAwesomeIcon 
                             className="icon-FormGear CircleLeft" 

@@ -114,3 +114,71 @@
     flex-direction: row-reverse;
 
 }
+
+
+
+@media (max-width: 768px) {
+
+  .full-formGear {
+    width: 80vw;
+    height: auto;
+    max-height: none;
+  }
+
+  .field input,
+  .field .input-note,
+  textarea {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .field .input-note,
+  textarea {
+    height: 180px;
+    max-height: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .mom-formGear {
+    padding: 15px;
+  }
+
+  .full-formGear {
+    width: 95vw;
+    min-width: unset;
+    border-radius: 15px;
+  }
+
+  .field input,
+  .field .input-note,
+  textarea {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .field .input-note,
+  textarea {
+    height: 150px;
+  }
+
+  .bottom-formGear {
+    flex-direction: column-reverse;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .bottom-formGear .buttonBack,
+  .bottom-formGear .Double-icons {
+    justify-content: center;
+  }
+
+  .icon-FormGear {
+    font-size: 22px;
+  }
+
+  .icon-FormGear.CircleLeft {
+    font-size: 24px;
+  }
+}
