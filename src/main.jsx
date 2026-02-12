@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux'; // Connects React to Redux
-import { store } from './redux/store';  // Our centralized state
+import { store } from './store/store';  // Our centralized state
 import App from './App';
 import './index.css';                  // Global styles & CSS variables
 

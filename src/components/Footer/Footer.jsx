@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setLanguage } from '../../redux/slices/userPreferencesSlice';
+import { setLanguage } from '../../store/userPreferencesSlice';
 import { FaXTwitter, FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import './Footer.css';
 

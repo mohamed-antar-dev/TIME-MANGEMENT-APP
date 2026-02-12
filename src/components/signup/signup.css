@@ -62,7 +62,8 @@ body {
     padding: 40px;
     position: relative;
     overflow: hidden;
-    border-radius: 19px;
+    border-radius: 0 4rem !important;
+    margin-left: 1%;
 }
 
 .ImageForm::before {
@@ -110,7 +111,7 @@ body {
 /* Right Section - Form */
 .form {
     flex: 1;
-    background: #f8f9fa;
+    background: transparent !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -127,14 +128,14 @@ body {
 .TitleForm {
     font-size: 32px;
     font-weight: bold;
-    color: #333;
+    color: var(--text-main) !important;
     margin-bottom: 10px;
     text-align: center;
     max-width: 600px;
 }
 
 .subtitle {
-    color: #666;
+    color: var(--text-secondary) !important;
     margin-bottom: 35px;
     font-size: 15px;
     text-align: center;
@@ -160,7 +161,7 @@ body {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 8px;
-    color: #333;
+    color: var(--text-main) !important;
     font-weight: 500;
     font-size: 14px;
 }
@@ -168,18 +169,18 @@ body {
 .feild input {
     width: 100%;
     padding: 14px 16px;
-    border: 2px solid #000000;
+    border: 1px solid var(--accent) !important;
     border-radius: 12px;
     font-size: 15px;
     transition: all 0.3s ease;
     outline: none;
     font-family: inherit;
-    background: rgb(232, 224, 224);
-    color: #000000;
+    background: var(--bg-surface) !important;
+    color: var(--text-main) !important;
 }
 .feild input:hover {
-    border-color: #667eea; 
-    background: #6e6faf;   
+    border-color: var(--accent) !important; 
+    background: var(--bg-elevated) !important;
     box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
     transform: translateY(-2px); 
     
@@ -191,7 +192,7 @@ body {
 }
 
 .feild input::placeholder {
-    color: #999;
+    color: var(--text-muted) !important;
 }
 
 /* Buttons Container */
@@ -222,7 +223,7 @@ body {
 
 .BttonSigne:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 15px 20px rgba(102, 126, 234, 0.3);
 }
 
 .BttonSigne:active {
@@ -254,7 +255,7 @@ body {
     background: #f8f9fa;
     border-color: #d0d0d0;
     transform: translateY(-1px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-glow) !important;
 }
 
 .bttonGoogle:active {
@@ -269,7 +270,7 @@ body {
 /* Login Link */
 .login-link {
     text-align: center;
-    color: #666;
+    color: var(--text-secondary) !important;
     font-size: 14px;
     margin-top: 25px;
     max-width: 600px;

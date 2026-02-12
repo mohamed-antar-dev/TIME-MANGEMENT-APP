@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleTheme } from "../../redux/slices/themeSlice";
-import { toggleMobileMenu, closeMobileMenu } from "../../redux/slices/uiSlice";
-import { setCurrentPage, setActiveNavItem } from "../../redux/slices/navigationSlice";
+import { toggleTheme } from "../../store/themeSlice";
+import { toggleMobileMenu, closeMobileMenu } from "../../store/uiSlice";
+import { setCurrentPage, setActiveNavItem } from "../../store/navigationSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser, faSun, faMoon, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import "./Navbar.css";
@@ -28,7 +28,7 @@ function Navbar() {
             '/tasks': 'tasks',
             '/notes': 'notes',
             '/focus': 'focus',
-            '/login': 'login'
+            '/signup': 'signup'
         };
         
         const activeItem = pathToNavItem[location.pathname] || 'home';
@@ -97,7 +97,7 @@ function Navbar() {
                             />
                         </button>
 
-                        <div className="user-icon" onClick={() => handleNavigation('/login')}>
+                        <div className="user-icon" onClick={() => handleNavigation('/Login')}>
                             <FontAwesomeIcon icon={faCircleUser} />
                         </div>
 
@@ -152,8 +152,8 @@ function Navbar() {
                             <span>Timer</span>
                         </div>
                         <div 
-                            className={`mobile-nav-item ${currentPage === '/login' ? 'active' : ''}`}
-                            onClick={() => handleNavigation('/login')}
+                            className={`mobile-nav-item ${currentPage === '/Login' ? 'active' : ''}`}
+                            onClick={() => handleNavigation('/Login')}
                         >
                             <span>Account</span>
                         </div>

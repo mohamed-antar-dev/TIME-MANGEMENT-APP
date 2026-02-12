@@ -1,14 +1,15 @@
-
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import './App.css'
 
-// Importing organized components from your directory structure
+// Importing components
 import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
+import NotePad from './components/NotePad/NotePad';
 import Footer from './components/Footer/Footer';
-
+import Signup from './components/signup/signup';
+import Focus from './components/Timer/Timer';
+import Login from './components/Login/Login';
 /**
  * ScrollToTop Helper:
  * SaaS UX best practice. Ensures that when you click a link, 
@@ -41,16 +42,21 @@ const App = () => {
       <ScrollToTop />
       <Navbar />
       
-      <main className="app-content" style={{ paddingTop: '100px' }}>
+      <main className="app-content">
         <Routes>
-          {/* 404 / Catch-all route: Redirects users back home if URL is wrong */}
-          <Route path="*" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/notes" element={<NotePad />} />
+          {/* <Route path="/tasks" element={<Tasks />} />       */}
+          <Route path="/focus" element={<Focus />} />        
+          <Route path="/login" element={<Login />} />        
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<Home />} />          
         </Routes>
       </main>
-        <Footer /> 
+      
+      <Footer /> 
     </Router>
   );
 };
-
 
 export default App;

@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
-
-import { 
-
-  toggleFAQ,
-  triggerStatsAnimation
-} from '../../redux/slices/uiSlice' // ⬅️ CORRIGER CE CHEMIN
+import { toggleFAQ, triggerStatsAnimation
+} from '../../store/uiSlice';
 import { FaTasks, FaChartLine } from "react-icons/fa";
 import { RxLapTimer } from "react-icons/rx";
 import { LuNotepadText } from "react-icons/lu";
@@ -30,7 +25,7 @@ const iconMap = {
 
 // ===== SUB-COMPONENTS =====
 
-const FeatureCard = ({ icon, title, desc, variant, delay }) => {
+  const FeatureCard = ({ icon, title, desc, variant, delay }) => {
   const IconComponent = iconMap[icon];
   
   return (

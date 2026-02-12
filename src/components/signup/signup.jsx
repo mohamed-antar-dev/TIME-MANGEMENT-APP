@@ -2,7 +2,7 @@ import React from "react";
 import "./signup.css";
 import { FaGoogle } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { updateField, resetForm } from "../store/signupSlice";
+import { updateField, resetForm } from "../../store/signupSlice";
 
 function Signup() {
     const dispatch = useDispatch();
@@ -121,7 +121,7 @@ function Signup() {
                 </form>
                 
                 <div className="login-link">
-                    ALREADY HAVE AN ACCOUNT ? <a href="/login">LOG IN</a>
+                    ALREADY HAVE AN ACCOUNT ? <a href="/Login">LOG IN</a>
                 </div>
             </div>
         </div>

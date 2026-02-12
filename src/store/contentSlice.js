@@ -29,22 +29,22 @@ const initialState = {
       image: "https://i.pravatar.cc/150?u=jhon" 
     },
     { 
-      name: "Sophia Chen", 
+      name: "Sophia ", 
       role: "Product Manager",
       text: "Best productivity tool I've used. The interface is clean and the features actually work as advertised. Worth every penny.", 
       image: "https://i.pravatar.cc/150?u=sophia" 
     },
     { 
-      name: "Alex Johnson", 
+      name: "jamal ", 
       role: "Freelance Designer",
       text: "As a freelancer, tracking billable hours was always a pain. TaskTime makes it effortless. Plus, the dark mode is gorgeous.", 
-      image: "https://i.pravatar.cc/150?u=alex" 
+      image: "https://i.pravatar.cc/150?u=jamal" 
     },
     { 
-      name: "Priya Patel", 
+      name: "omar fathi", 
       role: "Medical Student",
       text: "Study sessions are so much more effective with the Pomodoro timer. I can finally stay focused during long study marathons.", 
-      image: "https://i.pravatar.cc/150?u=priya" 
+      image: "https://i.pravatar.cc/150?u=omar" 
     },
   ],
   
@@ -131,14 +131,7 @@ const initialState = {
       desc: "Distraction-free environment with ambient sounds, website blocking, and notification management. Enter deep work instantly.",
       delay: 0.3
     },
-    {
-      id: 'analytics',
-      variant: "standard",
-      icon: "FaChartLine",
-      title: "Analytics & Insights",
-      desc: "Visualize your productivity with beautiful charts. Track time spent per project, completion rates, and identify optimization opportunities.",
-      delay: 0.4
-    },
+    
     {
       id: 'security',
       variant: "standard",
@@ -147,14 +140,7 @@ const initialState = {
       desc: "Military-grade encryption, local-first architecture, and optional cloud sync. Your data never leaves your control.",
       delay: 0.5
     },
-    {
-      id: 'interface',
-      variant: "standard",
-      icon: "CgDarkMode",
-      title: "Adaptive Interface",
-      desc: "Automatic dark mode with customizable themes. Clean, minimal design that adapts to your preferences and time of day.",
-      delay: 0.6
-    },
+   
     {
       id: 'cross-platform',
       variant: "standard",
@@ -195,9 +181,9 @@ const initialState = {
   
   // Stats
   stats: [
-    { value: "50000", label: "Active Users", suffix: "+" },
-    { value: "1000000", label: "Tasks Completed", suffix: "+" },
-    { value: "98", label: "User Satisfaction", suffix: "%" },
+    { value: "2000", label: "Active Users", suffix: "+" },
+    { value: "50000", label: "Tasks Completed", suffix: "+" },
+    { value: "92", label: "User Satisfaction", suffix: "%" },
     { value: "24", label: "Support Hours", suffix: "/7" },
   ],
   

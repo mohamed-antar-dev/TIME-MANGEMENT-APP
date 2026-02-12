@@ -1,31 +1,48 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useScramble } from '../../hooks/useScramble';
-import { useScrollReveal } from '../../hooks/useScrollReveal';
+// eslint-disable-next-line no-unused-vars
+import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { 
   setShowScrollToTop, 
   setScrollProgress,
-  updateCursorPosition,
   revealSection
-} from '../../redux/slices/uiSlice';
-import { FeatureCard, HowItWorksStep, ReviewCard, PricingCard, FAQItem, StatCounter } from './HomeComponents';
+} from '../../store/uiSlice';
+import { 
+  AnimatedFeatureCard, 
+  AnimatedHowItWorksStep, 
+  AnimatedReviewCard, 
+  AnimatedPricingCard, 
+  AnimatedFAQItem, 
+  AnimatedStatCounter,
+  ParticleBackground,
+  FloatingElements,
+  TypewriterText,
+  GlitchText,
+  WaveText,
+  GradientCursor
+} from './HomeAnimatedComponents';
+import { FaTasks, FaChartLine } from "react-icons/fa";
+import { RxLapTimer } from "react-icons/rx";
+
+
 import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cursorRef = useRef(null);
+  const heroRef = useRef(null);
   
-  // Redux Selectors - UI State
+  // Scroll animations
+  const { scrollYProgress } = useScroll();
+  const scaleProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // Redux Selectors
   const showScroll = useSelector((state) => state.ui.showScrollToTop);
-  const scrollProgress = useSelector((state) => state.ui.scrollProgress);
-  const revealedSections = useSelector((state) => state.ui.revealedSections);
-  const customCursorEnabled = useSelector((state) => state.userPreferences.interface.customCursor);
-  const animationsEnabled = useSelector((state) => state.userPreferences.animations.enabled);
-  const scrambleSpeed = useSelector((state) => state.userPreferences.animations.scrambleSpeed);
-  
-  // Redux Selectors - Content
   const hero = useSelector((state) => state.content.hero);
   const reviews = useSelector((state) => state.content.reviews);
   const pricing = useSelector((state) => state.content.pricing);
@@ -35,72 +52,29 @@ const Home = () => {
   const faqs = useSelector((state) => state.content.faqs);
   const about = useSelector((state) => state.content.about);
   const cta = useSelector((state) => state.content.cta);
-  
-  // Scramble effect for title
-  const title = useScramble(hero.title, scrambleSpeed);
-  
-  // Reveal hooks
-  const [aboutRef, aboutVisible] = useScrollReveal();
-  const [featuresRef, featuresVisible] = useScrollReveal();
-  const [howItWorksRef, howItWorksVisible] = useScrollReveal();
-  const [statsRef, statsVisible] = useScrollReveal();
-  const [reviewsRef] = useScrollReveal();
-  const [pricingRef, pricingVisible] = useScrollReveal();
-  const [faqRef, faqVisible] = useScrollReveal();
 
-  // Sync reveal state to Redux
-  useEffect(() => {
-    if (aboutVisible && !revealedSections.about) {
-      dispatch(revealSection('about'));
-    }
-  }, [aboutVisible, revealedSections.about, dispatch]);
+  // Section refs for scroll animations
+  const aboutRef = useRef(null);
+  const featuresRef = useRef(null);
+  const howItWorksRef = useRef(null);
+  const statsRef = useRef(null);
+  const reviewsRef = useRef(null);
+  const pricingRef = useRef(null);
+  const faqRef = useRef(null);
 
-  useEffect(() => {
-    if (featuresVisible && !revealedSections.features) {
-      dispatch(revealSection('features'));
-    }
-  }, [featuresVisible, revealedSections.features, dispatch]);
+  // In view detection
+  const aboutInView = useInView(aboutRef, { once: true, margin: "-100px" });
+  const featuresInView = useInView(featuresRef, { once: true, margin: "-100px" });
+  const howItWorksInView = useInView(howItWorksRef, { once: true, margin: "-100px" });
+  const statsInView = useInView(statsRef, { once: true, margin: "-100px" });
+  const reviewsInView = useInView(reviewsRef, { once: true, margin: "-100px" });
+  const pricingInView = useInView(pricingRef, { once: true, margin: "-100px" });
+  const faqInView = useInView(faqRef, { once: true, margin: "-100px" });
 
-  useEffect(() => {
-    if (howItWorksVisible && !revealedSections.howItWorks) {
-      dispatch(revealSection('howItWorks'));
-    }
-  }, [howItWorksVisible, revealedSections.howItWorks, dispatch]);
-
-  useEffect(() => {
-    if (statsVisible && !revealedSections.stats) {
-      dispatch(revealSection('stats'));
-    }
-  }, [statsVisible, revealedSections.stats, dispatch]);
-
-  useEffect(() => {
-    if (pricingVisible && !revealedSections.pricing) {
-      dispatch(revealSection('pricing'));
-    }
-  }, [pricingVisible, revealedSections.pricing, dispatch]);
-
-  useEffect(() => {
-    if (faqVisible && !revealedSections.faq) {
-      dispatch(revealSection('faq'));
-    }
-  }, [faqVisible, revealedSections.faq, dispatch]);
-
-  // Custom Cursor Follower Logic
-  useEffect(() => {
-    if (!customCursorEnabled) return;
-    
-    const moveCursor = (e) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`;
-        cursorRef.current.style.top = `${e.clientY}px`;
-      }
-      // Update cursor position in Redux
-      dispatch(updateCursorPosition({ x: e.clientX, y: e.clientY }));
-    };
-    
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, [customCursorEnabled, dispatch]);
+  // Parallax effects
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 500]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
 
   // Scroll Progress & Scroll to Top
   useEffect(() => {
@@ -117,6 +91,16 @@ const Home = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [dispatch]);
 
+  // Update Redux when sections come into view
+  useEffect(() => {
+    if (aboutInView) dispatch(revealSection('about'));
+    if (featuresInView) dispatch(revealSection('features'));
+    if (howItWorksInView) dispatch(revealSection('howItWorks'));
+    if (statsInView) dispatch(revealSection('stats'));
+    if (pricingInView) dispatch(revealSection('pricing'));
+    if (faqInView) dispatch(revealSection('faq'));
+  }, [aboutInView, featuresInView, howItWorksInView, statsInView, pricingInView, faqInView, dispatch]);
+
   const handlePricingSelect = (planId) => {
     if (planId === 'free' || planId === 'pro') {
       navigate(`/signup?plan=${planId}`);
@@ -125,205 +109,480 @@ const Home = () => {
     }
   };
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  };
+
+  const floatVariants = {
+    initial: { y: 0 },
+    animate: {
+      y: [-20, 20, -20],
+      transition: {
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
   return (
     <div className="home">
-      {/* Custom Cursor */}
-      {customCursorEnabled && <div className="custom-cursor" ref={cursorRef}></div>}
+      {/* Gradient Cursor */}
+      <GradientCursor />
+      
+      {/* Particle Background */}
+      <ParticleBackground />
       
       {/* Scroll Progress Bar */}
-      <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }}></div>
+      <motion.div 
+        className="scroll-progress-bar" 
+        style={{ scaleX: scaleProgress }}
+      />
 
       {/* --- HERO SECTION --- */}
-      <section className="hero">
-        <div className="hero-content">
-          <h1 className="hero-title">{animationsEnabled ? title : hero.title}</h1>
-          <p className="hero-subtitle">{hero.subtitle}</p>
-          <p className="hero-description">{hero.description}</p>
+      <motion.section 
+        ref={heroRef}
+        className="hero"
+        style={{
+          y: heroY,
+          opacity: heroOpacity,
+          scale: heroScale
+        }}
+      >
+        <FloatingElements />
+        
+        <motion.div 
+          className="hero-content"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={itemVariants}>
+            <GlitchText text={hero.title} className="hero-title" />
+          </motion.div>
           
-          <div className="hero-actions">
-            <button className="btn-primary" onClick={() => navigate('/signup')}>
+          <motion.div variants={itemVariants}>
+            <TypewriterText 
+              text={hero.subtitle} 
+              className="hero-subtitle"
+              speed={50}
+            />
+          </motion.div>
+          
+          <motion.p 
+            className="hero-description"
+            variants={itemVariants}
+          >
+            {hero.description}
+          </motion.p>
+          
+          <motion.div 
+            className="hero-actions"
+            variants={itemVariants}
+          >
+            <motion.button 
+              className="btn-primary"
+              onClick={() => navigate('/signup')}
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(99, 102, 241, 0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
               Get Started Free
-              <span className="btn-arrow">→</span>
-            </button>
-            <button className="btn-secondary" onClick={() => navigate('/demo')}>
+              <motion.span 
+                className="btn-arrow"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                →
+              </motion.span>
+            </motion.button>
+            
+            <motion.button 
+              className="btn-secondary"
+              onClick={() => navigate('/demo')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               Watch Demo
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
-          <div className="hero-stats">
-            <div className="stat">
-              <strong>50K+</strong>
-              <span>Active Users</span>
-            </div>
-            <div className="stat">
-              <strong>4.9/5</strong>
-              <span>User Rating</span>
-            </div>
-            <div className="stat">
-              <strong>99.9%</strong>
-              <span>Uptime</span>
-            </div>
-          </div>
-        </div>
+          <motion.div 
+            className="hero-stats"
+            variants={containerVariants}
+          >
+            {[
+              { value: "2K+", label: "Active Users" },
+              { value: "4.7/5", label: "User Rating" },
+              { value: "99%", label: "Uptime" }
+            ].map((stat, index) => (
+              <motion.div 
+                key={index}
+                className="stat"
+                variants={itemVariants}
+                whileHover={{ y: -5, scale: 1.05 }}
+              >
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
 
-        <div className="hero-visual">
-          <div className="floating-card card-1">
-            <div className="card-icon">📝</div>
+        <motion.div 
+          className="hero-visual"
+          variants={floatVariants}
+          initial="initial"
+          animate="animate"
+        >
+          <motion.div 
+            className="floating-card card-1"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="card-icon"><FaTasks /></div>
             <div className="card-text">
               <strong>23 Tasks</strong>
               <span>Completed Today</span>
             </div>
-          </div>
-          <div className="floating-card card-2">
-            <div className="card-icon">⏱️</div>
+          </motion.div>
+          
+          <motion.div 
+            className="floating-card card-2"
+            whileHover={{ scale: 1.1, rotate: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="card-icon"><RxLapTimer /></div>
             <div className="card-text">
               <strong>3h 42m</strong>
               <span>Focused Time</span>
             </div>
-          </div>
-          <div className="floating-card card-3">
-            <div className="card-icon">📊</div>
+          </motion.div>
+          
+          <motion.div 
+            className="floating-card card-3"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="card-icon"><FaChartLine /></div>
             <div className="card-text">
               <strong>+40%</strong>
               <span>Productivity</span>
             </div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
+        </motion.div>
+      </motion.section>
 
       {/* --- HOW IT WORKS SECTION --- */}
-      <section 
-        ref={howItWorksRef} 
-        className={`how-it-works reveal ${howItWorksVisible ? 'reveal-active' : ''}`}
+      <motion.section 
+        ref={howItWorksRef}
+        className="how-it-works"
+        initial={{ opacity: 0 }}
+        animate={howItWorksInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.8 }}
       >
-        <h2 className="section-label center">How It Works</h2>
-        <h3 className="section-title center">Get Started in 4 Simple Steps</h3>
-        <div className="steps-container">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={howItWorksInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <WaveText text="How It Works" className="section-label center" />
+          <h3 className="section-title center">Get Started in 4 Simple Steps</h3>
+        </motion.div>
+        
+        <motion.div 
+          className="steps-container"
+          variants={containerVariants}
+          initial="hidden"
+          animate={howItWorksInView ? "visible" : "hidden"}
+        >
           {howItWorks.map((step, index) => (
-            <HowItWorksStep key={index} {...step} />
+            <AnimatedHowItWorksStep key={index} {...step} index={index} />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* --- STATS SECTION --- */}
-      <section 
-        ref={statsRef} 
-        className={`stats-section reveal ${statsVisible ? 'reveal-active' : ''}`}
+      <motion.section 
+        ref={statsRef}
+        className="stats-section"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={statsInView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.8 }}
       >
-        <div className="stats-grid">
+        <motion.div 
+          className="stats-grid"
+          variants={containerVariants}
+          initial="hidden"
+          animate={statsInView ? "visible" : "hidden"}
+        >
           {stats.map((stat, index) => (
-            <StatCounter key={index} {...stat} />
+            <AnimatedStatCounter key={index} {...stat} index={index} />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* --- ABOUT SECTION --- */}
-      <section 
-        ref={aboutRef} 
-        className={`about reveal ${aboutVisible ? 'reveal-active' : ''}`}
+      <motion.section 
+        ref={aboutRef}
+        className="about"
+        initial={{ opacity: 0 }}
+        animate={aboutInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
       >
-        <h2 className="section-label center">About TaskTime</h2>
-        <h3 className="section-title center">{about.title}</h3>
-        <div className="about-cards">
-          <div className="about-card-sub">
-            <div className="stat">Our Philosophy</div>
-            <p>{about.philosophy}</p>
-          </div>
-          <div className="about-card-sub">
-            <div className="stat">Who We Build For</div>
-            <p>{about.audience}</p>
-          </div>
-          <div className="about-card-sub">
-            <div className="stat">Our Simple Goal</div>
-            <p>{about.mission}</p>
-          </div>
-        </div>
-      </section>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={aboutInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="section-label center">About TaskTime</h2>
+          <h3 className="section-title center">{about.title}</h3>
+        </motion.div>
+        
+        <motion.div 
+          className="about-cards"
+          variants={containerVariants}
+          initial="hidden"
+          animate={aboutInView ? "visible" : "hidden"}
+        >
+          {[
+            { title: "Our Philosophy", content: about.philosophy },
+            { title: "Who We Build For", content: about.audience },
+            { title: "Our Simple Goal", content: about.mission }
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              className="about-card-sub"
+              variants={itemVariants}
+              whileHover={{ 
+                y: -10, 
+                boxShadow: "0 20px 60px rgba(99, 102, 241, 0.3)",
+                borderColor: "var(--accent)"
+              }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="stat">{item.title}</div>
+              <p>{item.content}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.section>
 
       {/* --- CORE FEATURES SECTION --- */}
-      <section 
-        ref={featuresRef} 
-        className={`features reveal ${featuresVisible ? 'reveal-active' : ''}`}
+      <motion.section 
+        ref={featuresRef}
+        className="features"
+        initial={{ opacity: 0 }}
+        animate={featuresInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
       >
-        <h2 className="section-label center">Core Features</h2>
-        <h3 className="section-title center">Everything You Need to Succeed</h3>
-        <div className="features-grid-bento">
-          {features.map((feature) => (
-            <FeatureCard key={feature.id} {...feature} />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={featuresInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="section-label center">Core Features</h2>
+          <h3 className="section-title center">Everything You Need to Succeed</h3>
+        </motion.div>
+        
+        <motion.div 
+          className="features-grid-bento"
+          variants={containerVariants}
+          initial="hidden"
+          animate={featuresInView ? "visible" : "hidden"}
+        >
+          {features.map((feature, index) => (
+            <AnimatedFeatureCard key={feature.id} {...feature} index={index} />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
-      {/* --- REVIEWS --- */}
-      <section ref={reviewsRef} className="reviews-marquee-section">
-        <h2 className="section-label center">Testimonials</h2>
-        <h3 className="section-title center">Loved by Users Worldwide</h3>
+      {/* --- REVIEWS MARQUEE --- */}
+      <motion.section 
+        ref={reviewsRef}
+        className="reviews-marquee-section"
+        initial={{ opacity: 0 }}
+        animate={reviewsInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={reviewsInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="section-label center">Testimonials</h2>
+          <h3 className="section-title center">Loved by Users Worldwide</h3>
+        </motion.div>
+        
         <div className="marquee-container">
-          <div className="marquee-track">
+          <motion.div 
+            className="marquee-track"
+            animate={{
+              x: [0, -50 + "%"]
+            }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 40,
+                ease: "linear"
+              }
+            }}
+          >
             {[...reviews, ...reviews].map((rev, i) => (
-              <ReviewCard key={i} {...rev} />
+              <AnimatedReviewCard key={i} {...rev} index={i} />
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* --- PRICING SECTION --- */}
-      <section 
-        ref={pricingRef} 
-        className={`pricing-section reveal ${pricingVisible ? 'reveal-active' : ''}`}
+      <motion.section 
+        ref={pricingRef}
+        className="pricing-section"
+        initial={{ opacity: 0 }}
+        animate={pricingInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
       >
-        <h2 className="section-label center">Pricing Plans</h2>
-        <h3 className="section-title center">Choose Your Perfect Plan</h3>
-        <div className="pricing-container">
-          {pricing.map((plan) => (
-            <PricingCard 
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={pricingInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="section-label center">Pricing Plans</h2>
+          <h3 className="section-title center">Choose Your Perfect Plan</h3>
+        </motion.div>
+        
+        <motion.div 
+          className="pricing-container"
+          variants={containerVariants}
+          initial="hidden"
+          animate={pricingInView ? "visible" : "hidden"}
+        >
+          {pricing.map((plan, index) => (
+            <AnimatedPricingCard 
               key={plan.id}
               {...plan}
+              index={index}
               onSelect={() => handlePricingSelect(plan.id)}
             />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* --- FAQ --- */}
-      <section 
-        ref={faqRef} 
-        className={`faq reveal ${faqVisible ? 'reveal-active' : ''}`}
+      <motion.section 
+        ref={faqRef}
+        className="faq"
+        initial={{ opacity: 0 }}
+        animate={faqInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
       >
-        <h2 className="section-label center">FAQ</h2>
-        <h3 className="section-title center">Frequently Asked Questions</h3>
-        <div className="faq-list">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={faqInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="section-label center">FAQ</h2>
+          <h3 className="section-title center">Frequently Asked Questions</h3>
+        </motion.div>
+        
+        <motion.div 
+          className="faq-list"
+          variants={containerVariants}
+          initial="hidden"
+          animate={faqInView ? "visible" : "hidden"}
+        >
           {faqs.map((faq, index) => (
-            <FAQItem 
+            <AnimatedFAQItem 
               key={faq.id}
               question={faq.question}
               answer={faq.answer}
               index={index}
             />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* --- CTA SECTION --- */}
-      <section className="cta-section">
-        <div className="cta-content">
-          <h2>{cta.title}</h2>
-          <p>{cta.subtitle}</p>
-          <button className="btn-primary-lg" onClick={() => navigate('/signup')}>
+      <motion.section 
+        className="cta-section"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+      >
+        <motion.div 
+          className="cta-content"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.h2 variants={itemVariants}>{cta.title}</motion.h2>
+          <motion.p variants={itemVariants}>{cta.subtitle}</motion.p>
+          <motion.button 
+            className="btn-primary-lg"
+            variants={itemVariants}
+            onClick={() => navigate('/signup')}
+            whileHover={{ 
+              scale: 1.05,
+              boxShadow: "0 25px 50px rgba(255, 255, 255, 0.3)"
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
             {cta.buttonText}
-            <span className="btn-arrow">→</span>
-          </button>
-          <p className="cta-note">{cta.note}</p>
-        </div>
-      </section>
+            <motion.span 
+              className="btn-arrow"
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              →
+            </motion.span>
+          </motion.button>
+          <motion.p className="cta-note" variants={itemVariants}>
+            {cta.note}
+          </motion.p>
+        </motion.div>
+      </motion.section>
 
       {/* Scroll To Top Button */}
-      <button 
-        className={`scroll-to-top ${showScroll ? 'visible' : ''}`} 
+      <motion.button 
+        className="scroll-to-top"
         onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ 
+          opacity: showScroll ? 1 : 0,
+          y: showScroll ? 0 : 20
+        }}
+        whileHover={{ scale: 1.1, rotate: 360 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        aria-label="Scroll to top"
       >
         ↑
-      </button>
+      </motion.button>
     </div>
   );
 };
