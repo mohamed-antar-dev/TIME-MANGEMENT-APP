@@ -1,0 +1,469 @@
+/* ===== TASK CARD ===== */
+.FormTask {
+    width: 100%;
+    min-height: 90px;
+    background: var(--bg-surface);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-ambient);
+    margin-bottom: 16px;
+    padding: 20px 24px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    animation: taskFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes taskFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Accent border animation */
+.FormTask::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-primary);
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: bottom;
+}
+
+.FormTask:hover::before {
+    transform: scaleY(1);
+    transform-origin: top;
+}
+
+.FormTask:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-ambient), 0 8px 24px var(--accent-glow);
+}
+
+/* ===== TASK STATES ===== */
+
+/* Done state */
+.FormTask.task-done {
+    background: linear-gradient(135deg,
+            rgba(16, 185, 129, 0.1) 0%,
+            rgba(16, 185, 129, 0.05) 100%);
+    border-color: var(--success);
+}
+
+.FormTask.task-done::before {
+    background: var(--success);
+}
+
+.FormTask.task-done:hover {
+    border-color: var(--success);
+    box-shadow: var(--shadow-ambient), 0 8px 24px rgba(16, 185, 129, 0.2);
+}
+
+/* Locked state */
+.FormTask.task-locked {
+    border: 2px solid #F59E0B;
+    background: linear-gradient(135deg,
+            rgba(245, 158, 11, 0.08) 0%,
+            rgba(245, 158, 11, 0.03) 100%);
+    opacity: 0.9;
+}
+
+.FormTask.task-locked::before {
+    background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%);
+}
+
+.FormTask.task-locked:hover {
+    border-color: #F59E0B;
+    box-shadow: var(--shadow-ambient), 0 8px 24px rgba(245, 158, 11, 0.2);
+}
+
+/* Priority indicator */
+.FormTask.task-priority::after {
+    content: '!';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    background: var(--danger);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 800;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== TASK INFO CONTAINER ===== */
+.task-info-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 200px;
+    padding-right: 20px;
+}
+
+.task-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.task-checkbox {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.task-checkbox::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 800;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.FormTask.task-done .task-checkbox {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.FormTask.task-done .task-checkbox::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.inputTask {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-main);
+    font-size: 1.05rem;
+    font-weight: 600;
+    outline: none;
+    font-family: inherit;
+    cursor: default;
+}
+
+.FormTask.task-done .inputTask {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.task-time {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: var(--bg-elevated);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.task-time-icon {
+    font-size: 0.9rem;
+    color: var(--accent);
+}
+
+.task-note-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: var(--bg-elevated);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    cursor: help;
+}
+
+.task-note-icon {
+    font-size: 0.9rem;
+    color: var(--accent);
+}
+
+/* ===== TASK OPTIONS (ICONS) ===== */
+.OptionTask {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.task-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    background: var(--bg-elevated);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.task-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.task-icon:hover::before {
+    width: 200%;
+    height: 200%;
+}
+
+.task-icon>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* Delete icon */
+.icon-X {
+    color: var(--text-secondary);
+}
+
+.icon-X::before {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.icon-X:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+    background: rgba(239, 68, 68, 0.1);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Check/Done icon */
+.icon-Check {
+    color: var(--text-secondary);
+}
+
+.icon-Check::before {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.icon-Check:hover {
+    color: var(--success);
+    border-color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    transform: scale(1.15);
+}
+
+.FormTask.task-done .icon-Check {
+    color: var(--success);
+    border-color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+/* Lock icon */
+.icon-Lock {
+    color: var(--text-secondary);
+}
+
+.icon-Lock::before {
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.icon-Lock:hover {
+    color: #F59E0B;
+    border-color: #F59E0B;
+    background: rgba(245, 158, 11, 0.1);
+    transform: scale(1.15);
+}
+
+.FormTask.task-locked .icon-Lock {
+    color: #F59E0B;
+    border-color: #F59E0B;
+    background: rgba(245, 158, 11, 0.1);
+}
+
+/* Settings/Gear icon */
+.icon-Gear {
+    color: var(--text-secondary);
+}
+
+.icon-Gear::before {
+    background: var(--accent-glow);
+}
+
+.icon-Gear:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Disabled state for locked tasks */
+.FormTask.task-locked .task-icon:not(.icon-Lock) {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet Portrait (768px and below) */
+@media (max-width: 768px) {
+    .FormTask {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 16px 20px;
+    }
+
+    .task-info-container {
+        width: 100%;
+        padding-right: 0;
+    }
+
+    .OptionTask {
+        width: 100%;
+        justify-content: space-between;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+    }
+
+    .task-icon {
+        flex: 1;
+        max-width: 50px;
+    }
+}
+
+/* Mobile (600px and below) */
+@media (max-width: 600px) {
+    .FormTask {
+        padding: 14px 16px;
+        min-height: 80px;
+    }
+
+    .inputTask {
+        font-size: 1rem;
+    }
+
+    .task-time,
+    .task-note-indicator {
+        padding: 3px 10px;
+        font-size: 0.8rem;
+    }
+
+    .task-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+    .FormTask {
+        padding: 12px 14px;
+        border-radius: 16px;
+    }
+
+    .inputTask {
+        font-size: 0.95rem;
+    }
+
+    .task-meta {
+        gap: 10px;
+    }
+
+    .task-time,
+    .task-note-indicator {
+        font-size: 0.75rem;
+    }
+
+    .task-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 0.95rem;
+    }
+
+    .OptionTask {
+        gap: 6px;
+    }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+    .FormTask {
+        padding: 10px 12px;
+    }
+
+    .task-checkbox {
+        width: 20px;
+        height: 20px;
+    }
+
+    .inputTask {
+        font-size: 0.9rem;
+    }
+
+    .task-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+        border-radius: 10px;
+    }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .FormTask,
+    .task-icon,
+    .task-checkbox {
+        animation: none;
+        transition: none;
+    }
+}

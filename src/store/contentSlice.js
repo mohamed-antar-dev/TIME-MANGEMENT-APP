@@ -13,7 +13,7 @@ const initialState = {
     { 
       name: "Brahim Sougraty", 
       role: "Full stack developer",
-      text: "TaskTime transformed how our team manages sprints. The timer feature keeps us focused and the task breakdown is brilliant.", 
+      text: "FocuSpace transformed how our team manages sprints. The timer feature keeps us focused and the task breakdown is brilliant.", 
       image: "https://i.pravatar.cc/150?u=mike" 
     },
     { 
@@ -37,7 +37,7 @@ const initialState = {
     { 
       name: "jamal ", 
       role: "Freelance Designer",
-      text: "As a freelancer, tracking billable hours was always a pain. TaskTime makes it effortless. Plus, the dark mode is gorgeous.", 
+      text: "As a freelancer, tracking billable hours was always a pain. FocuSpace makes it effortless. Plus, the dark mode is gorgeous.", 
       image: "https://i.pravatar.cc/150?u=jamal" 
     },
     { 
@@ -56,7 +56,7 @@ const initialState = {
       price: "0",
       highlighted: false,
       features: [
-        'Unlimited tasks & notes',
+        'Limited tasks (6)',
         'Basic time tracking',
         'Pomodoro timer',
         'Local data storage',
@@ -71,6 +71,7 @@ const initialState = {
       highlighted: true,
       features: [
         'Everything in Free',
+       ' Unlimited tasks & notes',
         'Advanced analytics',
         'Cloud sync (encrypted)',
         'Unlimited workspaces',
@@ -206,13 +207,13 @@ const initialState = {
     },
     {
       id: 4,
-      question: "Can I use TaskTime on mobile devices?",
-      answer: "Yes! TaskTime is fully responsive and works seamlessly on iOS, Android, tablets, and desktop browsers. We're also developing native mobile apps for an even better experience. Your data syncs across all devices in real-time."
+      question: "Can I use FocuSpace on mobile devices?",
+      answer: "Yes! FocuSpace is fully responsive and works seamlessly on iOS, Android, tablets, and desktop browsers. We're also developing native mobile apps for an even better experience. Your data syncs across all devices in real-time."
     },
     {
       id: 5,
       question: "How is this different from other task managers?",
-      answer: "TaskTime uniquely combines three essential productivity tools: task management, time tracking, and note-taking. Most apps force you to switch between multiple tools. We integrate everything seamlessly—attach timers to tasks, link notes to projects, and see your entire workflow in one place. Plus, our privacy-first approach means your data stays yours."
+      answer: "FocuSpace uniquely combines three essential productivity tools: task management, time tracking, and note-taking. Most apps force you to switch between multiple tools. We integrate everything seamlessly—attach timers to tasks, link notes to projects, and see your entire workflow in one place. Plus, our privacy-first approach means your data stays yours."
     },
     {
       id: 6,
@@ -224,15 +225,15 @@ const initialState = {
   // About Section
   about: {
     title: "Built by Developers, for Everyone",
-    philosophy: "TaskTime was born from our own frustration with overly complex productivity tools that promise everything but deliver bloat. We believe that the best software gets out of your way and lets you focus on what matters. That's why we built TaskTime with a laser focus on three core pillars: simplicity, speed, and security.",
-    audience: "Whether you are prepping for a bar exam or managing a remote engineering team, TaskTime is crafted for those who value their time. We are a small team of developers dedicated to creating the cleanest, fastest, and most secure workspace on the web that prioritize your privacy and your flow state above everything else.",
+    philosophy: "FocuSpace was born from our own frustration with overly complex productivity tools that promise everything but deliver bloat. We believe that the best software gets out of your way and lets you focus on what matters. That's why we built FocuSpace with a laser focus on three core pillars: simplicity, speed, and security.",
+    audience: "Whether you are prepping for a bar exam or managing a remote engineering team, FocuSpace is crafted for those who value their time. We are a small team of developers dedicated to creating the cleanest, fastest, and most secure workspace on the web that prioritize your privacy and your flow state above everything else.",
     mission: "Empowering Your Best Work Body: Our mission is to give you back 30 minutes of lost time every day. By removing the friction of organizing, we help you spend less time planning your work and more time actually doing the things that move the needle."
   },
   
   // CTA Section
   cta: {
     title: "Ready to Transform Your Productivity?",
-    subtitle: "Join thousands of professionals who've mastered their time with TaskTime.",
+    subtitle: "Join thousands of professionals who've mastered their time with FocuSpace.",
     buttonText: "Start Your Free Trial",
     note: "No credit card required • 14-day free trial • Cancel anytime"
   },

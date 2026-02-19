@@ -60,9 +60,9 @@ body {
     align-items: center;
     justify-content: center;
     padding: 40px;
-    position: relative;
+    position: relative; 
     overflow: hidden;
-    border-radius: 0 4rem !important;
+    border-radius:  5rem !important;
     margin-left: 1%;
 }
 

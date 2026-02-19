@@ -102,7 +102,7 @@ const Timer = () => {
           'long-break': '🚀 Long break done! Let\'s get back to work.'
         };
         
-        new Notification('TaskTime Focus', {
+        new Notification('FocuSpace Focus', {
           body: messages[currentMode],
           icon: '/favicon.ico',
           requireInteraction: true,
@@ -183,9 +183,9 @@ const Timer = () => {
   // Update document title with timer
   useEffect(() => {
     if (isRunning) {
-      document.title = `${formatTime(secondsLeft)} - ${currentMode === 'focus' ? 'Focus' : 'Break'} | TaskTime`;
+      document.title = `${formatTime(secondsLeft)} - ${currentMode === 'focus' ? 'Focus' : 'Break'} | FocuSpace`;
     } else {
-      document.title = 'TaskTime - Focus Timer';
+      document.title = 'FocuSpace - Focus Timer';
     }
   }, [secondsLeft, isRunning, currentMode]);
 

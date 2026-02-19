@@ -64,7 +64,7 @@ body {
     padding: 40px;
     position: relative;
     overflow: hidden;
-    border-radius: 19px;
+    border-radius: 19px !important;
 }
 
 .ImageForm::before {

@@ -28,6 +28,7 @@ function Navbar() {
             '/tasks': 'tasks',
             '/notes': 'notes',
             '/focus': 'focus',
+            '/Login': 'Login',
             '/signup': 'signup'
         };
         
@@ -53,7 +54,7 @@ function Navbar() {
             <div className="BigMom">
                 <div className="Navmom">
                     <div className="logo" onClick={() => handleNavigation('/')}>
-                        Task<span>Time</span>
+                        Focu<span>Space</span>
                     </div>
 
                     {/* Desktop Navigation */}

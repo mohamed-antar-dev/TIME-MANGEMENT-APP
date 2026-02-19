@@ -6,10 +6,13 @@ import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 import NotePad from './components/NotePad/NotePad';
+import Tasks from './components/Tasks/Tasks';
+import FormGear from './components/formGear/formGear';
 import Footer from './components/Footer/Footer';
 import Signup from './components/signup/signup';
 import Focus from './components/Timer/Timer';
 import Login from './components/Login/Login';
+
 /**
  * ScrollToTop Helper:
  * SaaS UX best practice. Ensures that when you click a link, 
@@ -46,11 +49,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/notes" element={<NotePad />} />
-          {/* <Route path="/tasks" element={<Tasks />} />       */}
-          <Route path="/focus" element={<Focus />} />        
-          <Route path="/login" element={<Login />} />        
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/formGear/:taskid" element={<FormGear />} />
+          <Route path="/focus" element={<Focus />} />
+          <Route path="/timer" element={<Focus />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<Home />} />          
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
       

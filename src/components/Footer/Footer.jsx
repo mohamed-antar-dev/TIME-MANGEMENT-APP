@@ -37,7 +37,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="footer-column brand-column">
             <div className="footer-logo">
-              <h3>TaskTime</h3>
+              <h3>FocuSpace</h3>
               <span className="logo-tagline">Master Your Time</span>
             </div>
             <p className="footer-description">
@@ -150,7 +150,7 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="footer-bottom">
           <div className="footer-bottom-left">
-            <p>&copy; {new Date().getFullYear()} TaskTime. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} FocuSpace. All rights reserved.</p>
           </div>
           <div className="footer-bottom-right">
             <div className="language-selector">

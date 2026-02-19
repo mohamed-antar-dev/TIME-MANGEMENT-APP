@@ -7,7 +7,7 @@ import navigationReducer from './navigationSlice';
 import notePadReducer from './notePadSlice';
 import signupReducer from './signupSlice';
 import timerReducer from './timerSlice';
-
+import LoginReducer from './LoginSlice'
 export const store = configureStore({
   reducer: {
     theme: themeReducer,
@@ -17,6 +17,7 @@ export const store = configureStore({
     navigation: navigationReducer,
     notePad: notePadReducer,
     signup: signupReducer,
+    Login: LoginReducer,
     timer: timerReducer,
   },
 });

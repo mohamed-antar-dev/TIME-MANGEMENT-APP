@@ -356,7 +356,7 @@ const Home = () => {
           animate={aboutInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="section-label center">About TaskTime</h2>
+          <h2 className="section-label center">About FocuSpace</h2>
           <h3 className="section-title center">{about.title}</h3>
         </motion.div>
         

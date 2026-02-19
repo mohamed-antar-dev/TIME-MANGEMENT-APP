@@ -1,0 +1,560 @@
+/* ===== FORM GEAR CONTAINER ===== */
+.mom-formGear {
+    min-height: 100vh;
+    padding: 120px 20px 40px;
+    background: var(--bg-base);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.mom-formGear::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    opacity: 0.2;
+    pointer-events: none;
+    animation: float 15s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(50px, 30px);
+    }
+}
+
+/* ===== MAIN FORM CARD ===== */
+.full-formGear {
+    width: 100%;
+    max-width: 650px;
+    background: var(--bg-surface);
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-ambient), 0 20px 60px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Header with gradient */
+.full-formGear::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+/* ===== FORM HEADER ===== */
+.formGear-header {
+    padding: 30px 32px 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.formGear-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+.formGear-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ===== TOP FORM SECTION ===== */
+.top-formGear {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.top-formGear::-webkit-scrollbar {
+    width: 6px;
+}
+
+.top-formGear::-webkit-scrollbar-track {
+    background: var(--bg-elevated);
+    border-radius: 10px;
+}
+
+.top-formGear::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 10px;
+}
+
+/* ===== FIELD STYLING ===== */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeInUp 0.5s ease both;
+}
+
+.field:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.field:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.field:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.field label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.field-icon {
+    font-size: 1rem;
+    color: var(--accent);
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    padding: 16px 18px;
+    background: var(--bg-elevated);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    font-size: 1rem;
+    color: var(--text-main);
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.field input:hover,
+.field textarea:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+    transform: translateY(-2px);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.input-note {
+    min-height: 200px;
+    max-height: 300px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* Character count */
+.char-count {
+    align-self: flex-end;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: -8px;
+}
+
+/* ===== BOTTOM ACTIONS ===== */
+.bottom-formGear {
+    padding: 24px 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-elevated);
+}
+
+.buttonBack {
+    display: flex;
+    gap: 12px;
+}
+
+.Double-icons {
+    display: flex;
+    gap: 12px;
+}
+
+/* ===== ICON BUTTONS ===== */
+.icon-FormGear {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.icon-FormGear::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.icon-FormGear:hover::before {
+    width: 200%;
+    height: 200%;
+}
+
+.icon-FormGear>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* Back button */
+.CircleLeft {
+    width: auto;
+    padding: 0 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+}
+
+.CircleLeft::before {
+    background: var(--accent-glow);
+}
+
+.CircleLeft:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    transform: translateX(-4px);
+}
+
+/* Save button */
+.SaveIcon::before {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.SaveIcon:hover {
+    color: var(--success);
+    border-color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+}
+
+/* Trash button */
+.TrashIcon::before {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.TrashIcon:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+    background: rgba(239, 68, 68, 0.1);
+    transform: rotate(10deg) scale(1.05);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
+}
+
+/* ===== HELPER TEXT ===== */
+.field-helper {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: -6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.field-helper-icon {
+    font-size: 0.9rem;
+    color: var(--accent);
+}
+
+/* ===== VALIDATION STATES ===== */
+.field.error input,
+.field.error textarea {
+    border-color: var(--danger);
+}
+
+.field.error .field-helper {
+    color: var(--danger);
+}
+
+.field.success input,
+.field.success textarea {
+    border-color: var(--success);
+}
+
+.field.success .field-helper {
+    color: var(--success);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet Portrait (768px and below) */
+@media (max-width: 768px) {
+    .mom-formGear {
+        padding: 100px 16px 30px;
+    }
+
+    .full-formGear {
+        max-width: 100%;
+    }
+
+    .formGear-header {
+        padding: 24px 24px 20px;
+    }
+
+    .formGear-title {
+        font-size: 1.75rem;
+    }
+
+    .top-formGear {
+        padding: 24px;
+        gap: 20px;
+    }
+
+    .bottom-formGear {
+        padding: 20px 24px;
+        flex-direction: column-reverse;
+        gap: 16px;
+    }
+
+    .buttonBack,
+    .Double-icons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .CircleLeft {
+        width: 100%;
+    }
+}
+
+/* Mobile (600px and below) */
+@media (max-width: 600px) {
+    .mom-formGear {
+        padding: 90px 12px 24px;
+    }
+
+    .formGear-header {
+        padding: 20px 20px 16px;
+    }
+
+    .formGear-title {
+        font-size: 1.5rem;
+    }
+
+    .formGear-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .top-formGear {
+        padding: 20px;
+        gap: 18px;
+    }
+
+    .field input,
+    .field textarea {
+        padding: 14px 16px;
+        font-size: 0.95rem;
+    }
+
+    .input-note {
+        min-height: 160px;
+    }
+
+    .bottom-formGear {
+        padding: 16px 20px;
+    }
+
+    .icon-FormGear {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+    .formGear-title {
+        font-size: 1.25rem;
+    }
+
+    .top-formGear {
+        padding: 16px;
+    }
+
+    .field label {
+        font-size: 0.85rem;
+    }
+
+    .field input,
+    .field textarea {
+        padding: 12px 14px;
+        font-size: 0.9rem;
+    }
+
+    .input-note {
+        min-height: 140px;
+    }
+
+    .icon-FormGear {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+    }
+
+    .CircleLeft {
+        padding: 0 16px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+    .mom-formGear {
+        padding: 80px 8px 20px;
+    }
+
+    .full-formGear {
+        border-radius: 20px;
+    }
+
+    .formGear-header {
+        padding: 16px;
+    }
+
+    .formGear-title {
+        font-size: 1.1rem;
+    }
+
+    .top-formGear {
+        padding: 12px;
+    }
+
+    .bottom-formGear {
+        padding: 12px 16px;
+    }
+
+    .icon-FormGear {
+        width: 40px;
+        height: 40px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode specific adjustments */
+[data-theme='dark'] .input-note {
+    background: var(--bg-elevated);
+}
+
+[data-theme='dark'] .bottom-formGear {
+    background: rgba(51, 65, 85, 0.5);
+}
+
+/* Toast notification for save */
+.save-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 16px 24px;
+    background: var(--success);
+    color: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-ambient);
+    font-weight: 600;
+    animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 10000;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTask } from '../../../store/uiSlice'; 
+import { updateTask } from '../../store/uiSlice'; 
 import "./formGear.css";
 
 function FormGear() {
@@ -21,7 +21,7 @@ function FormGear() {
     const task = useSelector(state => 
         state.ui.tasks.find(t => t.id === Number(taskid))
     );
-// .
+
     const titleRef = useRef(null);
     const timeRef = useRef(null);
     const noteRef = useRef(null);
