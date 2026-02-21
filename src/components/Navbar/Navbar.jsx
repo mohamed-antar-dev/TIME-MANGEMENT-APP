@@ -54,7 +54,7 @@ function Navbar() {
             <div className="BigMom">
                 <div className="Navmom">
                     <div className="logo" onClick={() => handleNavigation('/')}>
-                        Focu<span>Space</span>
+                        Focu<span>S</span>pace
                     </div>
 
                     {/* Desktop Navigation */}

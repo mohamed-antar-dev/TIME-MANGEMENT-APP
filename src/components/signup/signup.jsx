@@ -3,6 +3,10 @@ import "./signup.css";
 import { FaGoogle } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField, resetForm } from "../../store/signupSlice";
+import { auth, googleProvider } from "../../firebase.jsx";
+import { signInWithPopup } from "firebase/auth";
+
+import { Link } from "react-router-dom";
 
 function Signup() {
     const dispatch = useDispatch();
@@ -25,15 +29,19 @@ function Signup() {
         
         console.log('Form submitted:', { Username, email, password });
         alert('Account created successfully!');
-        
-        // Reset form after successful submission
         dispatch(resetForm());
     };
+const handleGoogleSignIn = async () => {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                const user = result.user;
+                alert(`WELCOM ${user.displayName}! 🎉`);
+            } catch (error) {
+                console.error('Error:', error.message);
+                alert('Google Sign In failed!');
+            }
+        };
 
-    const handleGoogleSignIn = () => {
-        console.log('Google Sign In clicked');
-        alert('Google Sign In functionality would be implemented here');
-    };
 
     return (
         <div className="allForme">
@@ -121,7 +129,7 @@ function Signup() {
                 </form>
                 
                 <div className="login-link">
-                    ALREADY HAVE AN ACCOUNT ? <a href="/Login">LOG IN</a>
+                    ALREADY HAVE AN ACCOUNT ? <Link href="/login">LOG IN</Link>
                 </div>
             </div>
         </div>

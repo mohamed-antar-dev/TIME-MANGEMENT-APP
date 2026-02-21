@@ -124,11 +124,7 @@ function Tasks() {
             <p className="empty-text">
               Create your first task and start organizing your work efficiently
             </p>
-            <div className="empty-hint">
-              <span className="empty-hint-icon">👇</span>
-              <span>Click the + button to create a task</span>
             </div>
-          </div>
         ) : (
           // Empty state - filtered results
           <div className="tasks-empty">

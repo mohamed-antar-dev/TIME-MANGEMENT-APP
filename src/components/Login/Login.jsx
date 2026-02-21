@@ -1,9 +1,12 @@
 import React from "react";
 import "./Login.css";
+import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField, resetForm } from "../../store/LoginSlice";
-
+import { auth, googleProvider } from "../../firebase.jsx";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 function Login() {
     const dispatch = useDispatch();
     const { email, password } = useSelector((state) => state.Login);
@@ -27,11 +30,17 @@ function Login() {
         dispatch(resetForm());
     };
 
-    const handleGoogleSignIn = () => {
-        console.log('Google Sign In clicked');
-        alert('Google Sign In functionality would be implemented here');
-    };
-
+    const navigate = useNavigate();
+const handleGoogleSignIn = async () => {
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        navigate('/tasks', { state: { displayName: user.displayName } });
+    } catch (error) {
+        console.error('Error:', error.message);
+        alert('Google Sign In failed!');
+    }
+};
     return (
         <div className="allForme">
             <div className="ImageForm">
@@ -94,7 +103,7 @@ function Login() {
                 </form>
                 
                 <div className="login-link">
-                    DON'T HAVE AN ACCOUNT ? <a href="/signup">SIGN UP</a>
+                    DON'T HAVE AN ACCOUNT ? <Link to="/signup">SIGN UP</Link>
                 </div>
             </div>
         </div>
